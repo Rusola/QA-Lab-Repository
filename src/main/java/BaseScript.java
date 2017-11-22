@@ -32,17 +32,20 @@ public  abstract class BaseScript {
                 return new ChromeDriver();
 
             //I need assistance to set Fire Fox driver and IE driver
-            /*case "FIREFOX":
+            case "FIREFOX":
                 System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/drivers/geckodriver");
                 DesiredCapabilities dc = DesiredCapabilities.firefox();
                 dc.setCapability("marionette",true);
-                dc.setCapability("firefoxOptions", "org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd");
-                System.out.println(dc.getCapability("firefoxOption"));
+                FirefoxOptions firefoxOptions=new FirefoxOptions();
+                dc.setCapability("firefoxOptions", firefoxOptions);
+                //dc.setCapability("firefoxOptions", org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd );
                 dc.setCapability("browserName", "firefox");
-                dc.setCapability("moz:firefoxOptions","org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd");
-                dc.setCapability("version","");
+                dc.setCapability("moz:firefoxOptions",firefoxOptions);
+                //dc.setCapability("moz:firefoxOptions","org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd");
+                dc.setCapability("version",55.0);
                 dc.setCapability("platform","ANY");
-                return new FirefoxDriver();
+                return new FirefoxDriver(dc);
+
 
             case "IE":
                 System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "/drivers/MicrosoftWebDriver.exe");
