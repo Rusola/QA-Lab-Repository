@@ -1,14 +1,12 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+/*import org.openqa.selenium.By;
 
 public class ScriptB extends BaseScript{
 
     public static void main (String[] args) {
-        Loggin.start();
+        Login.start();
 
-        for (String nameButton: menuButtons){
-            WebElement webElement=driver.findElement(By.linkText(nameButton));
-            webElement.click();
+        for (String nameButton: Properties.menuButtons){
+            driver.findElement(By.linkText(nameButton));
             System.out.println("Page title is "+driver.getTitle());
             String url1=driver.getCurrentUrl();
             driver.navigate().refresh();

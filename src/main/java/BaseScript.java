@@ -1,26 +1,57 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
+
+
+import java.util.concurrent.TimeUnit;
+
+//Base script functionality, can be used for all Selenium scripts.
 
 public  abstract class BaseScript {
-    public static final String DEFAULT_BASE_ADMIN_URL = "http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/";
-    public static final String ADMIN_LOGIN = "webinar.test@gmail.com";
-    public static final String ADMIN_PASSWORD = "Xcg7299bnSmMuRLp9ITw";
 
-    static String [] menuButtons={"Заказы","Dashboard","Каталог","Клиенты","Служба поддержки","Статистика","Modules","Design","Доставка"};
+    static EventFiringWebDriver driver=getDriver();
 
-    static WebDriver driver = initChromeDriver();
-
-    public static WebDriver initChromeDriver() {
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
-        return new ChromeDriver();
+    public static EventFiringWebDriver getDriver() {
+        /* the "name" parameter needs to be specified before execution in order to get the driver type
+        ** the names to chose from are CHROME, IE, FIREFOX */
+        WebDriver thisDriver=initDriver("CHROME");
+        thisDriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+        thisDriver.manage().window().maximize();
+        EventFiringWebDriver webDriver=new EventFiringWebDriver(thisDriver);
+        webDriver.register(new EventHandler());
+        return webDriver;
     }
+    //method returns the browser that will be used for execution
 
-    public static void waitOrQuit() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public static WebDriver initDriver(String name) {
+        switch (name){
+            case "CHROME":
+                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/drivers/chromedriver");
+                return new ChromeDriver();
+
+            //I need assistance to set Fire Fox driver and IE driver
+            /*case "FIREFOX":
+                System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/drivers/geckodriver");
+                DesiredCapabilities dc = DesiredCapabilities.firefox();
+                dc.setCapability("marionette",true);
+                dc.setCapability("firefoxOptions", "org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd");
+                System.out.println(dc.getCapability("firefoxOption"));
+                dc.setCapability("browserName", "firefox");
+                dc.setCapability("moz:firefoxOptions","org.openqa.selenium.firefox.FirefoxOptions@7a3d45bd");
+                dc.setCapability("version","");
+                dc.setCapability("platform","ANY");
+                return new FirefoxDriver();
+
+            case "IE":
+                System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "/drivers/MicrosoftWebDriver.exe");
+                getDriver();
+                return new InternetExplorerDriver();*/
+
+                default:return new FirefoxDriver();
         }
     }
+
 }
 
